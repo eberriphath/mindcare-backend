@@ -4,7 +4,7 @@ from flask_jwt_extended import create_access_token, create_refresh_token, jwt_re
 
 auth_bp = Blueprint('auth', __name__)
 
-# Register Route
+
 @auth_bp.post('/register')
 def register():
     data = request.get_json()
@@ -22,13 +22,12 @@ def register():
     if existing_email:
         return {'error': 'Email already exists, please use a different email address'}, 404
 
-    # Don't hash password manually, let the setter handle it
+    
     new_user = User(username=username, email=email, password=data['password'])
     db.session.add(new_user)
     db.session.commit()
 
-    # Commenting out OTP-related email function
-    # send_user_signup_mail(new_user)  # OTP email function can be commented out for now
+    
 
     
     return jsonify({
