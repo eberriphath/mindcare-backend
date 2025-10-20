@@ -1,6 +1,6 @@
 from faker import Faker
 from model import User, Client, Admin, Therapist, Notification, Centre, Session, Progress, db
-from app import app
+from Mind_app.app import app
 from flask_bcrypt import Bcrypt
 import random
 from datetime import datetime, timezone
