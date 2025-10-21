@@ -197,4 +197,6 @@ class Notification(db.Model, SerializerMixin):
             'created_at': self.created_at.isoformat()
         }
 
+
+
     
