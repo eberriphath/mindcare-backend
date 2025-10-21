@@ -19,21 +19,21 @@ from routes.progess import progress_bp
 from routes.notification import notifications_bp
 
 
-# -------------------- APP CONFIG -------------------- #
+
 app = Flask(__name__)
 
-# --- Database (Supabase/PostgreSQL) ---
+
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     "postgresql+psycopg2://postgres.sggwzzmuagyrpxhdljid:JFU5ZfOEbimX5VbP@"
     "aws-1-eu-north-1.pooler.supabase.com:5432/postgres"
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# --- JWT Config ---
+
 app.config["JWT_SECRET_KEY"] = "your-secret-key"
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 
-# -------------------- INITIALIZATIONS -------------------- #
+
 db.init_app(app)
 migrate = Migrate(app, db)
 bcrypt = Bcrypt(app)
@@ -41,7 +41,7 @@ api = Api(app)
 CORS(app)
 jwt = JWTManager(app)
 
-# -------------------- BLUEPRINT REGISTRATION -------------------- #
+
 app.register_blueprint(user_bp)
 app.register_blueprint(client_bp)
 app.register_blueprint(therapist_bp)
@@ -52,7 +52,6 @@ app.register_blueprint(sessions_bp)
 app.register_blueprint(centres_bp)
 
 
-# -------------------- MAIN ENTRY -------------------- #
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
