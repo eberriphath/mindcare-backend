@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
-from model import Progress, db
 from flask_jwt_extended import jwt_required
+from model import Progress, db
+
 
 progress_bp = Blueprint('progress', __name__, url_prefix='/progress')
 
