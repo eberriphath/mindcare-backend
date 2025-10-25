@@ -1,12 +1,9 @@
 from flask import Blueprint, jsonify, request
 from model import db, Client
-from flask_jwt_extended import jwt_required
-
 client_bp = Blueprint('client', __name__)
 
 
 @client_bp.get('/clients')
-@jwt_required()
 def get_clients():
     clients = Client.query.all()
     return jsonify([client.serialize() for client in clients]), 200
@@ -14,7 +11,6 @@ def get_clients():
 
 
 @client_bp.get('/clients/<int:id>')
-@jwt_required()
 def get_client(id):
     client = Client.query.get(id)
     if not client:
@@ -24,7 +20,6 @@ def get_client(id):
 
 
 @client_bp.post('/clients')
-@jwt_required()
 def create_client():
     data = request.get_json()
 
@@ -46,7 +41,6 @@ def create_client():
     return jsonify({"message": "Client created successfully", "client": new_client.serialize()}), 201
 
 @client_bp.patch('/clients/<int:id>')
-@jwt_required()
 def update_client(id):
     client = Client.query.get(id)
     if not client:
@@ -65,7 +59,6 @@ def update_client(id):
 
 
 @client_bp.delete('/clients/<int:id>')
-@jwt_required()
 def delete_client(id):
     client = Client.query.get(id)
     if not client:

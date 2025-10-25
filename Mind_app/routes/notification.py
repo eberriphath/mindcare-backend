@@ -1,17 +1,14 @@
 from flask import Blueprint, jsonify, request
 from model import Notification, db
-from flask_jwt_extended import jwt_required
 
 notifications_bp = Blueprint('notifications', __name__, url_prefix='/notifications')
 
 @notifications_bp.get('/')
-@jwt_required()
 def get_notifications():
     notifications = Notification.query.all()
     return jsonify([n.serialize() for n in notifications]), 200
 
 @notifications_bp.post('/')
-@jwt_required()
 def create_notification():
     data = request.get_json()
     new_notification = Notification(

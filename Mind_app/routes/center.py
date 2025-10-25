@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from model import Centre, db
-from flask_jwt_extended import jwt_required
+
 
 centres_bp = Blueprint('centres', __name__, url_prefix='/centres')
 
@@ -10,7 +10,7 @@ def get_centres():
     return jsonify([c.serialize() for c in centres]), 200
 
 @centres_bp.post('/')
-@jwt_required()
+
 def create_centre():
     data = request.get_json()
     new_centre = Centre(
