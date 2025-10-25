@@ -1,12 +1,11 @@
 from flask import Blueprint, jsonify, request
 from model import db, Admin
-from flask_jwt_extended import jwt_required
+
 
 admin_bp = Blueprint('admin', __name__)
 
 
 @admin_bp.get('/admins')
-@jwt_required()
 def get_admins():
     admins = Admin.query.all()
     return jsonify([admin.serialize() for admin in admins]), 200
@@ -14,7 +13,6 @@ def get_admins():
 
 
 @admin_bp.get('/admins/<int:id>')
-@jwt_required()
 def get_admin(id):
     admin = Admin.query.get(id)
     if not admin:
@@ -24,7 +22,6 @@ def get_admin(id):
 
 
 @admin_bp.post('/admins')
-@jwt_required()
 def create_admin():
     data = request.get_json()
 
@@ -43,9 +40,8 @@ def create_admin():
     return jsonify({"message": "Admin created successfully", "admin": new_admin.serialize()}), 201
 
 
-# Update admin details
+
 @admin_bp.patch('/admins/<int:id>')
-@jwt_required()
 def update_admin(id):
     admin = Admin.query.get(id)
     if not admin:
@@ -61,7 +57,6 @@ def update_admin(id):
 
 
 @admin_bp.delete('/admins/<int:id>')
-@jwt_required()
 def delete_admin(id):
     admin = Admin.query.get(id)
     if not admin:

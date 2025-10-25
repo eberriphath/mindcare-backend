@@ -1,18 +1,15 @@
 from flask import Blueprint, jsonify, request
-from flask_jwt_extended import jwt_required
 from model import Progress, db
 
 
 progress_bp = Blueprint('progress', __name__, url_prefix='/progress')
 
 @progress_bp.get('/')
-@jwt_required()
 def get_progress():
     all_progress = Progress.query.all()
     return jsonify([p.serialize() for p in all_progress]), 200
 
 @progress_bp.post('/')
-@jwt_required()
 def create_progress():
     data = request.get_json()
     new_progress = Progress(

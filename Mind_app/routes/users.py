@@ -1,6 +1,5 @@
 from flask import Blueprint, jsonify, request
 from model import User, db, bcrypt
-from flask_jwt_extended import create_access_token, jwt_required
 from datetime import timedelta
 
 
@@ -36,27 +35,20 @@ def login_user():
     password = data.get('password')
 
     user = User.query.filter_by(email=email).first()
-    if not user or not bcrypt.check_password_hash(user.password_hash, password):
-        return jsonify({"message": "Invalid email or password"}), 401
-
-    access_token = create_access_token(identity=user.id, expires_delta=timedelta(hours=1))
-    return jsonify({
-        "message": "Login successful!",
-        "access_token": access_token,
-        "user": user.serialize()
-    }), 200
+   
+    
 
 
 
 @user_bp.get('/users')
-@jwt_required()
+
 def get_users():
     users = User.query.all()
     return jsonify([user.serialize() for user in users]), 200
 
 
 @user_bp.get('/users/<int:id>')
-@jwt_required()
+
 def get_user(id):
     user = User.query.get(id)
     if not user:
@@ -65,7 +57,7 @@ def get_user(id):
 
 
 @user_bp.patch('/users/<int:id>')
-@jwt_required()
+
 def update_user(id):
     user = User.query.get(id)
     if not user:
@@ -84,7 +76,7 @@ def update_user(id):
 
 
 @user_bp.delete('/users/<int:id>')
-@jwt_required()
+
 def delete_user(id):
     user = User.query.get(id)
     if not user:

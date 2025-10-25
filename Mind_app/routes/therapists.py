@@ -1,12 +1,11 @@
 from flask import Blueprint, jsonify, request
 from model import db, Therapist
-from flask_jwt_extended import jwt_required
+
 
 therapist_bp = Blueprint('therapist', __name__)
 
 
 @therapist_bp.get('/therapists')
-@jwt_required()
 def get_therapists():
     therapists = Therapist.query.all()
     return jsonify([therapist.serialize() for therapist in therapists]), 200
@@ -14,7 +13,6 @@ def get_therapists():
 
 
 @therapist_bp.get('/therapists/<int:id>')
-@jwt_required()
 def get_therapist(id):
     therapist = Therapist.query.get(id)
     if not therapist:
@@ -24,7 +22,6 @@ def get_therapist(id):
 
 
 @therapist_bp.post('/therapists')
-@jwt_required()
 def create_therapist():
     data = request.get_json()
 
@@ -46,7 +43,6 @@ def create_therapist():
 
 
 @therapist_bp.patch('/therapists/<int:id>')
-@jwt_required()
 def update_therapist(id):
     therapist = Therapist.query.get(id)
     if not therapist:
@@ -66,7 +62,6 @@ def update_therapist(id):
 
 
 @therapist_bp.delete('/therapists/<int:id>')
-@jwt_required()
 def delete_therapist(id):
     therapist = Therapist.query.get(id)
     if not therapist:
