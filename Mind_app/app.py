@@ -8,7 +8,10 @@ from datetime import timedelta
 from dotenv import load_dotenv
 import os
 
+
 from model import db, User, Client, Admin, Therapist, Notification, Centre, Session, Progress
+
+
 from routes.users import user_bp
 from routes.clients import client_bp
 from routes.therapists import therapist_bp
@@ -18,6 +21,7 @@ from routes.session import sessions_bp
 from routes.progess import progress_bp
 from routes.notification import notifications_bp
 from auth import auth_bp
+
 
 
 load_dotenv()
@@ -40,8 +44,8 @@ CORS(app)
 jwt = JWTManager(app)
 
 
-app.register_blueprint(auth_bp)
-app.register_blueprint(user_bp)
+app.register_blueprint(auth_bp)           
+app.register_blueprint(user_bp)          
 app.register_blueprint(client_bp)
 app.register_blueprint(therapist_bp)
 app.register_blueprint(admin_bp)
