@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from model import User, db
+
 from flask_jwt_extended import jwt_required
 
 user_bp = Blueprint('user', __name__, url_prefix="/user")
@@ -10,6 +11,7 @@ def get_users():
     users = User.query.all()
     return jsonify([user.serialize() for user in users]), 200
 
+
 @user_bp.get('/users/<int:id>')
 @jwt_required()
 def get_user(id):
@@ -17,6 +19,7 @@ def get_user(id):
     if not user:
         return jsonify({"error": "User not found"}), 404
     return jsonify(user.serialize()), 200
+
 
 @user_bp.patch('/users/<int:id>')
 @jwt_required()
@@ -36,6 +39,7 @@ def update_user(id):
     db.session.commit()
     return jsonify({"message": "User updated successfully", "user": user.serialize()}), 200
 
+
 @user_bp.delete('/users/<int:id>')
 @jwt_required()
 def delete_user(id):
@@ -46,4 +50,3 @@ def delete_user(id):
     db.session.delete(user)
     db.session.commit()
     return jsonify({"message": "User deleted successfully"}), 200
-

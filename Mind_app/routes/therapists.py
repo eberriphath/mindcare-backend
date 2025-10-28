@@ -1,18 +1,19 @@
 from flask import Blueprint, jsonify, request
 from model import db, Therapist
+from flask_jwt_extended import jwt_required
+
+therapist_bp = Blueprint('therapist', __name__, url_prefix="/therapist")
 
 
-therapist_bp = Blueprint('therapist', __name__)
-
-
-@therapist_bp.get('/therapists')
+@therapist_bp.get('/')
+@jwt_required()
 def get_therapists():
     therapists = Therapist.query.all()
     return jsonify([therapist.serialize() for therapist in therapists]), 200
 
 
-
-@therapist_bp.get('/therapists/<int:id>')
+@therapist_bp.get('/<int:id>')
+@jwt_required()
 def get_therapist(id):
     therapist = Therapist.query.get(id)
     if not therapist:
@@ -20,11 +21,10 @@ def get_therapist(id):
     return jsonify(therapist.serialize()), 200
 
 
-
-@therapist_bp.post('/therapists')
+@therapist_bp.post('/')
+@jwt_required()
 def create_therapist():
     data = request.get_json()
-
     required_fields = ['specialization', 'experience_years', 'availability', 'user_id', 'centre_id']
     if not all(field in data for field in required_fields):
         return jsonify({"error": "Missing required fields"}), 400
@@ -42,7 +42,8 @@ def create_therapist():
     return jsonify({"message": "Therapist created successfully", "therapist": new_therapist.serialize()}), 201
 
 
-@therapist_bp.patch('/therapists/<int:id>')
+@therapist_bp.patch('/<int:id>')
+@jwt_required()
 def update_therapist(id):
     therapist = Therapist.query.get(id)
     if not therapist:
@@ -60,8 +61,8 @@ def update_therapist(id):
     return jsonify({"message": "Therapist updated successfully", "therapist": therapist.serialize()}), 200
 
 
-
-@therapist_bp.delete('/therapists/<int:id>')
+@therapist_bp.delete('/<int:id>')
+@jwt_required()
 def delete_therapist(id):
     therapist = Therapist.query.get(id)
     if not therapist:
