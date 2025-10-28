@@ -42,7 +42,7 @@ def send():
     message = Message(
         subject="Hello from MindCare App",
         recipients=["test.mailtrap1234@gmail.com"],
-        sender=('Peter from MindCare', 'peter@mailtrap.club')
+        sender=('Paul from MindCare', 'paul@mailtrap.club')
     )
     message.body = "This is a test email sent from the MindCare Flask application using Mailtrap."
     mail.send(message)
