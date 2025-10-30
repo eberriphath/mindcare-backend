@@ -197,6 +197,30 @@ class Notification(db.Model, SerializerMixin):
             'created_at': self.created_at.isoformat()
         }
 
+class MoodEntry(db.Model, SerializerMixin):
+    __tablename__ = 'mood_entries'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+    mood = db.Column(db.String(10), nullable=False)
+    journal = db.Column(db.Text, nullable=False)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
+    emotions = db.Column(db.JSON, default={})  # Optional API response
+
+    user = db.relationship('User', back_populates='mood_entries')
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "mood": self.mood,
+            "journal": self.journal,
+            "date": self.date.isoformat(),
+            "emotions": self.emotions
+        }
+
+
+
 
 
     

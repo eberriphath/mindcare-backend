@@ -4,7 +4,7 @@ import os
 
 send_bp = Blueprint("send_bp", __name__)
 
-mail = Mail()
+mail = Mail()  
 
 def init_mail(app):
     app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'sandbox.smtp.mailtrap.io')
@@ -13,7 +13,7 @@ def init_mail(app):
     app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', 'your_mailtrap_password')
     app.config['MAIL_USE_TLS'] = True
     app.config['MAIL_USE_SSL'] = False
-    mail.init_app(app)
+    mail.init_app(app)  
 
 @send_bp.route('/send')
 def send_email():
