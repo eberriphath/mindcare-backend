@@ -45,6 +45,7 @@ app.register_blueprint(notifications_bp)
 app.register_blueprint(progress_bp)
 app.register_blueprint(sessions_bp)
 app.register_blueprint(centres_bp)
+app.register_blueprint(send_bp)  
 
 
 if __name__ == "__main__":
