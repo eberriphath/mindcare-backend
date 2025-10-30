@@ -20,6 +20,7 @@ class User(db.Model, SerializerMixin):
     admin = db.relationship('Admin', back_populates='user', uselist=False, passive_deletes=True)
     therapist = db.relationship('Therapist', back_populates='user', uselist=False, passive_deletes=True)
     notification = db.relationship('Notification', back_populates='user', passive_deletes=True)
+    mood_entries = db.relationship('MoodEntry', back_populates='user', cascade='all, delete-orphan')
     
 
     @hybrid_property
