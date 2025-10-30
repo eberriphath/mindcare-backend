@@ -19,7 +19,6 @@ from routes.session import sessions_bp
 from routes.progess import progress_bp
 from routes.notification import notifications_bp
 from auth import auth_bp
-from routes.send_mail import send_bp  
 
 load_dotenv()
 
@@ -37,8 +36,8 @@ api = Api(app)
 CORS(app)
 jwt = JWTManager(app)
 
-app.register_blueprint(auth_bp)
-app.register_blueprint(user_bp)
+app.register_blueprint(auth_bp)           
+app.register_blueprint(user_bp)          
 app.register_blueprint(client_bp)
 app.register_blueprint(therapist_bp)
 app.register_blueprint(admin_bp)
@@ -47,6 +46,7 @@ app.register_blueprint(progress_bp)
 app.register_blueprint(sessions_bp)
 app.register_blueprint(centres_bp)
 app.register_blueprint(send_bp)  
+
 
 if __name__ == "__main__":
     with app.app_context():

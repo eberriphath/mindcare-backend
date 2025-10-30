@@ -2,18 +2,17 @@ from flask import Blueprint, jsonify, request
 from model import db, Admin
 from flask_jwt_extended import jwt_required
 
-admin_bp = Blueprint('admin', __name__)
+admin_bp = Blueprint('admin', __name__, url_prefix='/admins')
 
 
-@admin_bp.get('/admins')
+@admin_bp.get('/')
 @jwt_required()
 def get_admins():
     admins = Admin.query.all()
     return jsonify([admin.serialize() for admin in admins]), 200
 
 
-
-@admin_bp.get('/admins/<int:id>')
+@admin_bp.get('/<int:id>')
 @jwt_required()
 def get_admin(id):
     admin = Admin.query.get(id)
@@ -22,12 +21,10 @@ def get_admin(id):
     return jsonify(admin.serialize()), 200
 
 
-
-@admin_bp.post('/admins')
+@admin_bp.post('/')
 @jwt_required()
 def create_admin():
     data = request.get_json()
-
     
     required_fields = ['user_id']
     if not all(field in data for field in required_fields):
@@ -37,14 +34,12 @@ def create_admin():
         user_id=data['user_id'],
         permissions=data.get('permissions')
     )
-
     db.session.add(new_admin)
     db.session.commit()
     return jsonify({"message": "Admin created successfully", "admin": new_admin.serialize()}), 201
 
 
-# Update admin details
-@admin_bp.patch('/admins/<int:id>')
+@admin_bp.patch('/<int:id>')
 @jwt_required()
 def update_admin(id):
     admin = Admin.query.get(id)
@@ -59,8 +54,7 @@ def update_admin(id):
     return jsonify({"message": "Admin updated successfully", "admin": admin.serialize()}), 200
 
 
-
-@admin_bp.delete('/admins/<int:id>')
+@admin_bp.delete('/<int:id>')
 @jwt_required()
 def delete_admin(id):
     admin = Admin.query.get(id)
