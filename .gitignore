@@ -1,0 +1,48 @@
+# --- Python / Flask ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+instance/
+.env
+*.db
+*.sqlite3
+.mypy_cache/
+.pytest_cache/
+.env/
+
+# --- Virtual environments ---
+venv/
+env/
+.venv/
+.python-version
+*.egg-info/
+*.egg
+
+# --- IDE / Editors ---
+.vscode/
+.idea/
+*.swp
+
+# --- OS junk ---
+.DS_Store
+Thumbs.db
+
+# --- Logs ---
+*.log
+
+# --- Node / React frontend (if exists in same repo) ---
+node_modules/
+build/
+dist/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# --- Pipenv / Dependencies ---
+Pipfile.lock
+__pypackages__/
+
+# --- Misc ---
+*.bak

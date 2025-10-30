@@ -8,9 +8,7 @@ from datetime import timedelta
 from dotenv import load_dotenv
 import os
 
-
-from model import db, User, Client, Admin, Therapist, Notification, Centre, Session, Progress
-
+from model import db, User, Client, Admin, Therapist, Notification, Centre, Session, Progress, MoodEntry
 
 from routes.users import user_bp
 from routes.clients import client_bp
@@ -20,29 +18,26 @@ from routes.center import centres_bp
 from routes.session import sessions_bp
 from routes.progess import progress_bp
 from routes.notification import notifications_bp
+from routes.mood import mood_bp
+from routes.send_mail import send_bp, init_mail
 from auth import auth_bp
-
-
 
 load_dotenv()
 
-
 app = Flask(__name__)
-
 
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "sqlite:///mindcare.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY", "your-secret-key")
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 
-
+init_mail(app) 
 db.init_app(app)
 migrate = Migrate(app, db)
 bcrypt = Bcrypt(app)
 api = Api(app)
 CORS(app)
 jwt = JWTManager(app)
-
 
 app.register_blueprint(auth_bp)           
 app.register_blueprint(user_bp)          
@@ -53,6 +48,9 @@ app.register_blueprint(notifications_bp)
 app.register_blueprint(progress_bp)
 app.register_blueprint(sessions_bp)
 app.register_blueprint(centres_bp)
+app.register_blueprint(send_bp)  
+app.register_blueprint(mood_bp)
+
 
 
 if __name__ == "__main__":
